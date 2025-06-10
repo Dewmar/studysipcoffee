@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudySip - Student Cafe</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville&display=swap" rel="stylesheet">
+        
+        body {
+    font-family: 'Libre Baskerville', serif;
+    background-color: #faf4e8;
+    line-height: 1.6;
+    scroll-behavior: smooth;
+}
+        
+        .hero-section {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url("DSC02528.JPG");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        
+        .full-image-section {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("DSC05352.JPG");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        .animate-bounce-slow {
+            animation: bounce 3s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-15px);
+            }
+        }
+        
+        .bg-primary {
+            background-color: #6e1818;
+        }
+        
+        .text-primary {
+            color: #6e1818;
+        }
+        
+        .bg-secondary {
+            background-color: #faf4e8;
+        }
+        
+        .text-secondary {
+            color: #faf4e8;
+        }
+
+        /* Menu Carousel Styles */
+        .menu-carousel {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+        }
+        
+        .menu-carousel::-webkit-scrollbar {
+            height: 8px;
+        }
+        
+        .menu-carousel::-webkit-scrollbar-thumb {
+            background: #6e1818;
+            border-radius: 10px;
+        }
+        
+        .menu-carousel::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        
+        .menu-category {
+            flex: 0 0 100%;
+            scroll-snap-align: start;
+            padding: 0 1rem;
+        }
+        
+        .menu-item {
+            background: white;
+            border-radius: 0px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            margin: 0 0.5rem 1rem;
+            flex: 0 0 calc(33.333% - 1rem);
+        }
+        
+        .menu-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .menu-img {
+            height: 200px;
+            width: 100%;
+            object-fit: cover;
+        }
+        
+        .menu-content {
+            padding: 1.5rem;
+        }
+        
+        .menu-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-size: 1.1rem;
+        }
+        
+        .menu-desc {
+            color: #666;
+            font-size: 0.875rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .menu-calories {
+            color: #6e1818;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        
+        .carousel-nav {
+            display: flex;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+        
+        .carousel-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 0%;
+            background: #ddd;
+            margin: 0 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .carousel-dot.active {
+            background: #6e1818;
+            transform: scale(1.2);
+        }
+		
+		.about-section {
+    background-image: linear-gradient(rgba(250, 244, 232, 0.2), rgba(250, 244, 232, 0.95)), url("DSC05352.JPG");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    color: #333;
+}
+
+
+        /* Gallery Styles */
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 0px;
+            transition: all 0.3s ease;
+            height: 300px;
+        }
+        
+        .gallery-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .gallery-item:hover .gallery-img {
+            transform: scale(1.05);
+        }
+        
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            padding: 1.5rem;
+            color: white;
+        }
+        
+        .gallery-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            font-size: 1.2rem;
+        }
+        
+        .gallery-desc {
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+
+        /* Section Styles */
+        .section-padding {
+            padding-top: 6rem;
+            padding-bottom: 6rem;
+        }
+        
+        .section-title {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 3rem;
+            font-size: 2rem;
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 3px;
+            background: #6e1818;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #6e1818;
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #8a2a2a;
+        }
+
+        /* Floating animation */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <!-- Logo Placeholder - Replace with your logo -->
+                        <div class="flex items-center">
+                            <img src="Green Modern Ice Cream Store Buy 1 Get 1 Promotion Instagram Post (3).png" alt="StudySip Logo" class="h-10 w-auto mr-2">
+                            <span class="text-xl font-bold text-primary">Study<span class="text-black">Sip</span></span>
+                        </div>
+                    </div>
+                    <div class="hidden md:block ml-10">
+                        <div class="flex space-x-8">
+                            <a href="#" class="text-primary hover:text-amber-700 px-3 py-2 text-sm font-medium">Home</a>
+                            <a href="#menu" class="text-gray-700 hover:text-primary px-3 py-2 text-sm font-medium">Menu</a>
+                            <a href="#about" class="text-gray-700 hover:text-primary px-3 py-2 text-sm font-medium">About</a>
+                            <a href="#testimonials" class="text-gray-700 hover:text-primary px-3 py-2 text-sm font-medium">Testimonials</a>
+                            <a href="#gallery" class="text-gray-700 hover:text-primary px-3 py-2 text-sm font-medium">Events</a>
+                            <a href="#contact" class="text-gray-700 hover:text-primary px-3 py-2 text-sm font-medium">Contact</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="hidden md:block">
+                    <a href="#contact" class="bg-primary text-white px-6 py-2 rounded-full text-sm font-medium hover:bg-amber-700 transition duration-300">Visit Us</a>
+                </div>
+                <div class="md:hidden">
+                    <button type="button" class="text-gray-700 hover:text-primary focus:outline-none" id="mobile-menu-button">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile menu -->
+        <div class="md:hidden hidden" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-2 sm:px-3 bg-white">
+                <a href="#" class="block px-3 py-2 text-sm text-primary font-medium">Home</a>
+                <a href="#menu" class="block px-3 py-2 text-sm text-gray-700 hover:text-primary">Menu</a>
+                <a href="#about" class="block px-3 py-2 text-sm text-gray-700 hover:text-primary">About</a>
+                <a href="#testimonials" class="block px-3 py-2 text-sm text-gray-700 hover:text-primary">Testimonials</a>
+                <a href="#gallery" class="block px-3 py-2 text-sm text-gray-700 hover:text-primary">Events</a>
+                <a href="#contact" class="block px-3 py-2 text-sm text-gray-700 hover:text-primary">Contact</a>
+                <a href="#contact" class="block px-3 py-2 bg-primary text-white rounded-full text-sm text-center mt-2">Visit Us</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section text-white py-32">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <!-- Optional Logo in Hero Section -->
+            <div class="mb-8">
+                <img src="Green Modern Ice Cream Store Buy 1 Get 1 Promotion Instagram Post (3).png" alt="StudySip Logo" class="h-20 w-auto mx-auto">
+            </div>
+            <h1 class="text-4xl md:text-5xl font-bold mb-8">Study Hard, Sip Harder</h1>
+            <p class="text-lg md:text-xl mb-12 max-w-3xl mx-auto">Premium drinks, delicious confections, and the perfect study environment for UiTM students who mean business.</p>
+            <div class="flex flex-col sm:flex-row justify-center gap-6">
+                <a href="#menu" class="bg-primary hover:bg-amber-700 text-white px-8 py-3 rounded-full font-bold text-base transition duration-300">View Menu</a>
+                <a href="#contact" class="bg-white hover:bg-gray-100 text-primary px-8 py-3 rounded-full font-bold text-base transition duration-300">Our Location</a>
+            </div>
+            <div class="mt-16 animate-bounce-slow">
+                <i class="fas fa-chevron-down text-2xl"></i>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="section-padding bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-4 section-title">Why Students Love StudySip</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">We've designed every aspect of our cafe with students in mind</p>
+            </div>
+                        
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+                <div class="text-center px-6">
+                    <div class="bg-amber-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6 floating">
+                        <i class="fas fa-wifi text-2xl text-primary"></i>
+                    </div>
+                    <h3 class="text-lg font-bold mb-4">High-Speed WiFi</h3>
+                    <p class="text-gray-600 text-sm">Blazing fast internet to keep up with your research and online classes without interruption.</p>
+                </div>
+                                
+                <div class="text-center px-6">
+                    <div class="bg-amber-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6 floating">
+                        <i class="fas fa-book text-2xl text-primary"></i>
+                    </div>
+                    <h3 class="text-lg font-bold mb-4">Grab-and-Go</h3>
+                    <p class="text-gray-600 text-sm">Quick pick-up counter for students on the move.</p>
+                </div>
+                                
+                <div class="text-center px-6">
+                    <div class="bg-amber-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6 floating">
+                        <i class="fas fa-users text-2xl text-primary"></i>
+                    </div>
+                    <h3 class="text-lg font-bold mb-4">Student-Friendly Pricing</h3>
+                    <p class="text-gray-600 text-sm">Enjoy exclusive discounts and combo deals made just for students.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Full Image Section -->
+    <section class="full-image-section text-white py-32">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold mb-6">The Perfect Study Environment</h2>
+            <p class="text-lg mb-8 max-w-2xl mx-auto">Designed by students, for students. Our space is optimized for focus, comfort, and productivity.</p>
+            <div class="flex justify-center">
+                <a href="#about" class="bg-white hover:bg-gray-100 text-primary px-8 py-3 rounded-full font-bold text-base transition duration-300">
+                    Learn More About Us
+                </a>
+            </div>
+        </div>
+    </section>
+	
+<!-- menu secgtion -->
+    <section id="menu" class="py-20 bg-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Header -->
+    <div class="text-center mb-12">
+      <h2 class="text-3xl font-semibold text-gray-900">Student-Friendly Menu</h2>
+      <p class="text-gray-500 mt-2">Carefully crafted beverages and snacks to fuel your study sessions</p>
+    </div>
+
+    <!-- Category Buttons -->
+    <div class="flex justify-center mb-10 space-x-2 overflow-x-auto pb-2">
+      <button class="menu-tab active text-sm font-medium text-white bg-gray-900 px-4 py-2 rounded-full" data-target="matcha">Matcha</button>
+      <button class="menu-tab text-sm font-medium text-gray-700 hover:bg-gray-100 px-4 py-2 rounded-full" data-target="confections">Confections</button>
+      <button class="menu-tab text-sm font-medium text-gray-700 hover:bg-gray-100 px-4 py-2 rounded-full" data-target="coffee">Coffee</button>
+      <button class="menu-tab text-sm font-medium text-gray-700 hover:bg-gray-100 px-4 py-2 rounded-full" data-target="sparkling">Sparkling</button>
+    </div>
+
+    <!-- Menu Carousel -->
+    <div class="overflow-hidden relative">
+      <div class="menu-carousel flex transition-transform duration-500 space-x-8">
+        <!-- Matcha -->
+        <div class="menu-category w-full shrink-0" id="matcha">
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            <!-- Item -->
+            <div class="bg-white border rounded-0 shadow-sm p-4">
+              <img src="Dread Harvest Poster (8).png" alt="Matcha Latte" class="w-full h-48 object-cover rounded-0 mb-3">
+              <h4 class="text-md font-semibold text-gray-800">Matcha Latte</h4>
+              <p class="text-sm text-gray-500">Premium ceremonial grade matcha with steamed milk</p>
+              <p class="text-xs text-green-600 mt-1">~ 120 kcal</p>
+            </div>
+			  <div class="bg-white border rounded-0 shadow-sm p-4">
+              <img src="gulfnews_import_2023_02_08_Salted-Caramel-Matcha-Latte-_186315042a6_medium.jpg" alt="Matcha Latte" class="w-full h-48 object-cover rounded-0 mb-3">
+              <h4 class="text-md font-semibold text-gray-800">Caramel Matcha</h4>
+              <p class="text-sm text-gray-500">Premium ceremonial grade matcha with steamed milk</p>
+              <p class="text-xs text-green-600 mt-1">~ 120 kcal</p>
+            </div>
+			  <div class="bg-white border rounded-0 shadow-sm p-4">
+              <img src="Dread Harvest Poster (8).png" alt="Matcha Latte" class="w-full h-48 object-cover rounded-0 mb-3">
+              <h4 class="text-md font-semibold text-gray-800">Hazelnut Matcha</h4>
+              <p class="text-sm text-gray-500">Premium ceremonial grade matcha with steamed milk</p>
+              <p class="text-xs text-green-600 mt-1">~ 120 kcal</p>
+            </div>
+			  <div class="bg-white border rounded-0 shadow-sm p-4">
+              <img src="green-tea-matcha-latte-with-chocolate-in-glass-photo.jpg" alt="Matcha Latte" class="w-full h-48 object-cover rounded-0 mb-3">
+              <h4 class="text-md font-semibold text-gray-800">Chocolate Matcha</h4>
+              <p class="text-sm text-gray-500">Premium ceremonial grade matcha with steamed milk</p>
+              <p class="text-xs text-green-600 mt-1">~ 120 kcal</p>
+            </div>
+			  <div class="bg-white border rounded-0 shadow-sm p-4">
+              <img src="Dread Harvest Poster (8).png" alt="Matcha Latte" class="w-full h-48 object-cover rounded-0 mb-3">
+              <h4 class="text-md font-semibold text-gray-800">Vanilla Matcha</h4>
+              <p class="text-sm text-gray-500">Premium ceremonial grade matcha with steamed milk</p>
+              <p class="text-xs text-green-600 mt-1">~ 120 kcal</p>
+            </div>
+			  <div class="bg-white border rounded-0 shadow-sm p-4">
+              <img src="Dread Harvest Poster (7).png" alt="Matcha Latte" class="w-full h-48 object-cover rounded-0 mb-3">
+              <h4 class="text-md font-semibold text-gray-800">Strawberry Matcha</h4>
+              <p class="text-sm text-gray-500">Premium ceremonial grade matcha with steamed milk</p>
+              <p class="text-xs text-green-600 mt-1">~ 120 kcal</p>
+            </div>
+            <!-- Add more matcha items here -->
+          </div>
+        </div>
+
+        <!-- Confections -->
+        <div class="menu-category w-full shrink-0 hidden" id="confections">
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            <div class="bg-white border rounded-0 shadow-sm p-4">
+              <img src="choc.png" alt="Chocolate Caramel" class="w-full h-48 object-cover rounded-0 mb-3">
+              <h4 class="text-md font-semibold text-gray-800">Chocolate</h4>
+              <p class="text-sm text-gray-500">Rich chocolate with gooey caramel center</p>
+              <p class="text-xs text-green-600 mt-1">~ 280 kcal</p>
+            </div>
+			  <div class="bg-white border rounded-0 shadow-sm p-4">
+              <img src="choc.png" alt="Chocolate Caramel" class="w-full h-48 object-cover rounded-0 mb-3">
+              <h4 class="text-md font-semibold text-gray-800">Chocolate Caramel</h4>
+              <p class="text-sm text-gray-500">Rich chocolate with gooey caramel center</p>
+              <p class="text-xs text-green-600 mt-1">~ 280 kcal</p>
+            </div>
+			  <div class="bg-white border rounded-0 shadow-sm p-4">
+              <img src="choc.png" alt="Chocolate Caramel" class="w-full h-48 object-cover rounded-0 mb-3">
+              <h4 class="text-md font-semibold text-gray-800">Chocolate Hazelnut</h4>
+              <p class="text-sm text-gray-500">Rich chocolate with gooey caramel center</p>
+              <p class="text-xs text-green-600 mt-1">~ 280 kcal</p>
+            </div>
+			  <div class="bg-white border rounded-0 shadow-sm p-4">
+              <img src="choc.png" alt="Chocolate Caramel" class="w-full h-48 object-cover rounded-0 mb-3">
+              <h4 class="text-md font-semibold text-gray-800">Chocolate Vanilla</h4>
+              <p class="text-sm text-gray-500">Rich chocolate with gooey caramel center</p>
+              <p class="text-xs text-green-600 mt-1">~ 280 kcal</p>
+            </div><div class="bg-white border rounded-0 shadow-sm p-4">
+              <img src="choc.png" alt="Chocolate Caramel" class="w-full h-48 object-cover rounded-0 mb-3">
+              <h4 class="text-md font-semibold text-gray-800">Black Forest</h4>
+              <p class="text-sm text-gray-500">Rich chocolate with gooey caramel center</p>
+              <p class="text-xs text-green-600 mt-1">~ 280 kcal</p>
+            </div>
+            <!-- More items -->
+          </div>
+        </div>
+
+        <!-- Coffee -->
+        <div class="menu-category w-full shrink-0 hidden" id="coffee">
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            <div class="bg-white border rounded-0 shadow-sm p-4">
+              <img src="latte.png" alt="Latte" class="w-full h-48 object-cover rounded-0 mb-3">
+              <h4 class="text-md font-semibold text-gray-800">Latte</h4>
+              <p class="text-sm text-gray-500">Espresso with steamed milk</p>
+              <p class="text-xs text-green-600 mt-1">~ 150 kcal</p>
+            </div>
+			  <div class="bg-white border rounded-0 shadow-sm p-4">
+              <img src="latte.png" alt="Latte" class="w-full h-48 object-cover rounded-0 mb-3">
+              <h4 class="text-md font-semibold text-gray-800">Caramel Latte</h4>
+              <p class="text-sm text-gray-500">Espresso with steamed milk</p>
+              <p class="text-xs text-green-600 mt-1">~ 150 kcal</p>
+            </div>
+			  <div class="bg-white border rounded-0 shadow-sm p-4">
+              <img src="latte.png" alt="Latte" class="w-full h-48 object-cover rounded-0 mb-3">
+              <h4 class="text-md font-semibold text-gray-800">Vanilla Latte</h4>
+              <p class="text-sm text-gray-500">Espresso with steamed milk</p>
+              <p class="text-xs text-green-600 mt-1">~ 150 kcal</p>
+            </div>
+			  <div class="bg-white border rounded-0 shadow-sm p-4">
+              <img src="latte.png" alt="Latte" class="w-full h-48 object-cover rounded-0 mb-3">
+              <h4 class="text-md font-semibold text-gray-800">Mocha</h4>
+              <p class="text-sm text-gray-500">Espresso with steamed milk</p>
+              <p class="text-xs text-green-600 mt-1">~ 150 kcal</p>
+            </div>
+			  <div class="bg-white border rounded-0 shadow-sm p-4">
+              <img src="latte.png" alt="Latte" class="w-full h-48 object-cover rounded-0 mb-3">
+              <h4 class="text-md font-semibold text-gray-800">Spanish Latte</h4>
+              <p class="text-sm text-gray-500">Espresso with steamed milk</p>
+              <p class="text-xs text-green-600 mt-1">~ 150 kcal</p>
+            </div><div class="bg-white border rounded-0 shadow-sm p-4">
+              <img src="latte.png" alt="Latte" class="w-full h-48 object-cover rounded-0 mb-3">
+              <h4 class="text-md font-semibold text-gray-800">Caramel Macchiato</h4>
+              <p class="text-sm text-gray-500">Espresso with steamed milk</p>
+              <p class="text-xs text-green-600 mt-1">~ 150 kcal</p>
+            </div><div class="bg-white border rounded-00 shadow-sm p-4">
+              <img src="latte.png" alt="Latte" class="w-full h-48 object-cover rounded-0 mb-3">
+              <h4 class="text-md font-semibold text-gray-800">Hazelnut Latte</h4>
+              <p class="text-sm text-gray-500">Espresso with steamed milk</p>
+              <p class="text-xs text-green-600 mt-1">~ 150 kcal</p>
+            </div><div class="bg-white border rounded-0 shadow-sm p-4">
+              <img src="latte.png" alt="Latte" class="w-full h-48 object-cover rounded-0 mb-3">
+              <h4 class="text-md font-semibold text-gray-800">Strawberry Latte</h4>
+              <p class="text-sm text-gray-500">Espresso with steamed milk</p>
+              <p class="text-xs text-green-600 mt-1">~ 150 kcal</p>
+            </div><div class="bg-white border rounded-0 shadow-sm p-4">
+              <img src="latte.png" alt="Latte" class="w-full h-48 object-cover rounded-0 mb-3">
+              <h4 class="text-md font-semibold text-gray-800">Cappucino</h4>
+              <p class="text-sm text-gray-500">Espresso with steamed milk</p>
+              <p class="text-xs text-green-600 mt-1">~ 150 kcal</p>
+            </div>
+            <!-- More items -->
+          </div>
+        </div>
+
+        <!-- Sparkling -->
+        <div class="menu-category w-full shrink-0 hidden" id="sparkling">
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            <div class="bg-white border rounded-0 shadow-sm p-4">
+              <img src="strawberry-with-soda-in-glass-photo.jpg" alt="Strawberry Soda" class="w-full h-48 object-cover rounded-0 mb-3">
+              <h4 class="text-md font-semibold text-gray-800">Strawberry Soda</h4>
+              <p class="text-sm text-gray-500">Fizzy strawberry soda with a refreshing twist</p>
+              <p class="text-xs text-green-600 mt-1">~ 130 kcal</p>
+            </div>
+			  <div class="bg-white border rounded-0 shadow-sm p-4">
+              <img src="passion-fruit-mango-mojito-glass-fresh-top-266454503.webp" alt="Strawberry Soda" class="w-full h-48 object-cover rounded-0 mb-3">
+              <h4 class="text-md font-semibold text-gray-800">Mango Soda</h4>
+              <p class="text-sm text-gray-500">Fizzy strawberry soda with a refreshing twist</p>
+              <p class="text-xs text-green-600 mt-1">~ 130 kcal</p>
+            </div>
+			  <div class="bg-white border rounded-0 shadow-sm p-4">
+              <img src="strawberry-with-soda-in-glass-photo.jpg" alt="Strawberry Soda" class="w-full h-48 object-cover rounded-0 mb-3">
+              <h4 class="text-md font-semibold text-gray-800">Blackcurrant Soda</h4>
+              <p class="text-sm text-gray-500">Fizzy strawberry soda with a refreshing twist</p>
+              <p class="text-xs text-green-600 mt-1">~ 130 kcal</p>
+            </div>
+			  
+			  
+            <!-- More items -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Promo Note -->
+    <div class="text-center mt-12">
+      <p class="text-sm text-gray-700">🎓 RM1 off each order on Fridays for students!</p>
+    </div>
+  </div>
+</section>
+
+
+    <!-- About Section -->
+	<section id="about" class="section-padding about-section">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-12 md:mb-0 md:pr-10">
+                    <img src="IMG_9287.png"
+                          alt="StudySip Cafe"
+                          class="rounded-0 shadow-xl w-full">
+                </div>
+                <div class="md:w-1/2">
+                    <h2 class="text-2xl md:text-3xl font-bold text-black-900 mb-8 section-title">Our Story</h2>
+                    <p class="text-black-600 text-sm mb-6">Founded in 2025 by UiTM students who were tired of limited study spaces on campus, StudySip was created to provide the perfect environment for focused study sessions.</p>
+                    <p class="text-black-600 text-sm mb-6">We've designed every aspect of our cafe with students in mind - from the comfortable seating to the study-friendly lighting, from our affordable student pricing to our convenient evening hours that align with student schedules.</p>
+                    <p class="text-black-600 text-sm mb-8">Our baristas are trained to make your drinks exactly how you need them to fuel your study session, whether that's an extra shot of espresso or a calming matcha latte.</p>
+                    <div class="flex items-center">
+                        <div class="bg-amber-100 p-3 rounded-full mr-4">
+                            <i class="fas fa-graduation-cap text-xl text-primary"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-base">Student Discount</h4>
+                            <p class="text-black-600 text-sm">RM1 off each order on Fridays!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+	
+    <section id="testimonials" class="section-padding bg-secondary">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-4 section-title">What Students Say</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Hear from our satisfied student customers</p>
+            </div>
+                        
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white p-8 rounded-0 shadow-sm hover:shadow-md transition duration-300">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 rounded-full bg-amber-100 flex items-center justify-center mr-4">
+                            <i class="fas fa-user text-primary text-lg"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-base">Dya F.</h4>
+                            <p class="text-gray-500 text-xs">Language Student</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 text-sm mb-6">"The WiFi here is faster than the library, and the coffee keeps me going through all-night coding sessions. The study pods are perfect when I need to focus."</p>
+                    <div class="flex text-amber-400">
+                        <i class="fas fa-star text-sm"></i>
+                        <i class="fas fa-star text-sm"></i>
+                        <i class="fas fa-star text-sm"></i>
+                        <i class="fas fa-star text-sm"></i>
+                        <i class="fas fa-star text-sm"></i>
+                    </div>
+                </div>
+                                
+                <div class="bg-white p-8 rounded-0 shadow-sm hover:shadow-md transition duration-300">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 rounded-full bg-amber-100 flex items-center justify-center mr-4">
+                            <i class="fas fa-user text-primary text-lg"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-base">Zikri Z.</h4>
+                            <p class="text-gray-500 text-xs">Muamalat Student</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 text-sm mb-6">"During exam weeks, StudySip is my second home. The matcha latte gives me energy without the jitters. Staff are always friendly and understanding."</p>
+                    <div class="flex text-amber-400">
+                        <i class="fas fa-star text-sm"></i>
+                        <i class="fas fa-star text-sm"></i>
+                        <i class="fas fa-star text-sm"></i>
+                        <i class="fas fa-star text-sm"></i>
+                        <i class="fas fa-star text-sm"></i>
+                    </div>
+                </div>
+                                
+                <div class="bg-white p-8 rounded-0 shadow-sm hover:shadow-md transition duration-300">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 rounded-full bg-amber-100 flex items-center justify-center mr-4">
+                            <i class="fas fa-user text-primary text-lg"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-base">Khatty W.</h4>
+                            <p class="text-gray-500 text-xs">Masscomm Student</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 text-sm mb-6">"I love the quiet study areas and the abundance of power outlets. The banana bread is my favorite study snack - I come here every evening after class."</p>
+                    <div class="flex text-amber-400">
+                        <i class="fas fa-star text-sm"></i>
+                        <i class="fas fa-star text-sm"></i>
+                        <i class="fas fa-star text-sm"></i>
+                        <i class="fas fa-star text-sm"></i>
+                        <i class="fas fa-star-half-alt text-sm"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Events Gallery Section -->
+  <section id="gallery" class="bg-white py-20">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+    <!-- Section Header -->
+    <div class="text-center mb-12">
+      <h2 class="text-3xl md:text-4xl font-bold text-gray-900 section-title">Events Gallery</h2>
+      <p class="text-gray-600 mt-4 max-w-2xl mx-auto">Take a look at some of the events we’ve hosted with our community and partners.</p>
+    </div>
+
+    <!-- Events Blocks -->
+    <div class="space-y-10">
+
+      <!-- Event 1 -->
+      <div class="grid md:grid-cols-2 gap-6 items-center">
+        <div class="p-6">
+          <h2 class="text-3xl font-semibold text-gray-900">Gegau Fest 2.0</h2>
+          <p class="mt-4 text-gray-600">Free coffee refills for students during midterms.</p>
+        </div>
+        <div>
+          <img src="DSC02528.JPG" alt="Gegau Fest 2.0" class="w-full h-auto rounded-0 shadow-sm object-cover">
+        </div>
+      </div>
+
+      <!-- Event 2 -->
+      <div class="grid md:grid-cols-2 gap-6 items-center md:flex-row-reverse">
+        <div>
+          <img src="DSC05335.JPG" alt="FKPM x Niaga" class="w-full h-auto rounded-0 shadow-sm object-cover">
+        </div>
+        <div class="p-6">
+          <h2 class="text-3xl font-semibold text-gray-900">FKPM x Niaga</h2>
+          <p class="mt-4 text-gray-600">Students learning latte art techniques.</p>
+        </div>
+      </div>
+
+      <!-- Event 3 -->
+      <div class="grid md:grid-cols-2 gap-6 items-center">
+        <div class="p-6">
+          <h2 class="text-3xl font-semibold text-gray-900">Coming Soon.</h2>
+          <p class="mt-4 text-gray-600">Stay tuned for more events and moments!</p>
+        </div>
+        <div>
+          <img src="DSC05352.JPG" alt="Coming Soon" class="w-full h-auto rounded-0 shadow-sm object-cover">
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+
+    <!-- Contact Section -->
+    <section id="contact" class="section-padding bg-primary text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-2xl md:text-3xl font-bold mb-4 section-title">Visit Us</h2>
+                <p class="text-white-200 max-w-2xl mx-auto">We'd love to see you at our cafe!</p>
+            </div>
+                        
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+                <div class="text-center">
+                    <div class="bg-amber-800 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-map-marker-alt text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-bold mb-4">Location</h3>
+                    <p class="text-sm text-white-100">Anjung Siswa UiTM<br>Cawangan Melaka<br>Kampus Alor Gajah</p>
+                </div>
+                                
+                <div class="text-center">
+                    <div class="bg-amber-800 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-clock text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-bold mb-4">Hours</h3>
+                    <p class="text-sm text-white-100">Sunday - Friday: 5:30pm - 11pm<br>
+                    Closed on Saturdays<br>
+                    Extended hours during exam weeks</p>
+                </div>
+                                
+                <div class="text-center">
+                    <div class="bg-amber-800 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-envelope text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-bold mb-4">Contact</h3>
+                    <p class="text-sm text-white-100">hello@studysip.com<br>
+                    (06) 234 5678<br>
+                    @studysip.co on social media</p>
+                </div>
+            </div>
+                        
+            <!-- Map -->
+            <div class="mt-16 rounded-0 overflow-hidden shadow-xl">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d498.30208103355983!2d102.18129697100923!3d2.366127556964865!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31d1fd004ac300f9%3A0x1a513cbc1a3456e9!2sAnjung%20Siswa%20Uitm%20Alor%20Gajah!5e0!3m2!1sen!2smy!4v1747597050942!5m2!1sen!2smy"
+                        width="100%"
+                        height="450"
+                        style="border:0;"
+                        allowfullscreen=""
+                        loading="lazy"></iframe>
+            </div>
+                        
+            <div class="flex justify-center mt-12 space-x-6">
+                <a href="#" class="bg-amber-800 hover:bg-amber-700 w-12 h-12 rounded-full flex items-center justify-center transition duration-300">
+                    <i class="fab fa-facebook-f text-lg"></i>
+                </a>
+                <a href="#" class="bg-amber-800 hover:bg-amber-700 w-12 h-12 rounded-full flex items-center justify-center transition duration-300">
+                    <i class="fab fa-twitter text-lg"></i>
+                </a>
+                <a href="https://www.instagram.com/studysip.co?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" class="bg-amber-800 hover:bg-amber-700 w-12 h-12 rounded-full flex items-center justify-center transition duration-300">
+                    <i class="fab fa-instagram text-lg"></i>
+                </a>
+                <a href="https://www.tiktok.com/@studysip?is_from_webapp=1&sender_device=pc" class="bg-amber-800 hover:bg-amber-700 w-12 h-12 rounded-full flex items-center justify-center transition duration-300">
+                    <i class="fab fa-tiktok text-lg"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-10">
+                <div>
+                    <!-- Footer Logo -->
+                    <div class="flex items-center mb-4">
+                        <img src="Green Modern Ice Cream Store Buy 1 Get 1 Promotion Instagram Post (3).png" alt="StudySip Logo" class="h-10 w-auto mr-2">
+                        <h3 class="text-xl font-bold text-primary">Study<span class="text-white">Sip</span></h3>
+                    </div>
+                    <p class="text-gray-400 text-sm">Study Hard, Sip Harder. The ultimate study destination for UiTM students who need great drinks, good food, and the perfect environment to focus.</p>
+                </div>
+                                
+                <div>
+                    <h4 class="font-bold text-base mb-6">Quick Links</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition duration-300 text-sm">Home</a></li>
+                        <li><a href="#menu" class="text-gray-400 hover:text-primary transition duration-300 text-sm">Menu</a></li>
+                        <li><a href="#about" class="text-gray-400 hover:text-primary transition duration-300 text-sm">About</a></li>
+                        <li><a href="#testimonials" class="text-gray-400 hover:text-primary transition duration-300 text-sm">Testimonials</a></li>
+                        <li><a href="#gallery" class="text-gray-400 hover:text-primary transition duration-300 text-sm">Events</a></li>
+                        <li><a href="#contact" class="text-gray-400 hover:text-primary transition duration-300 text-sm">Contact</a></li>
+                    </ul>
+                </div>
+                                
+                
+                                
+                <div>
+                    <h4 class="font-bold text-base mb-6">Newsletter</h4>
+                    <p class="text-gray-400 text-sm mb-6">Subscribe for student deals and events</p>
+                    <form class="flex">
+                        <input type="email" placeholder="Your email" class="px-4 py-2 rounded-l-lg focus:outline-none text-black w-full text-sm">
+                        <button type="submit" class="bg-primary hover:bg-amber-700 px-4 py-2 rounded-r-lg transition duration-300 text-sm">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+                        
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400 text-sm">
+                <p>&copy; 2025 StudySip. All rights reserved. Designed for UiTM students, by UiTM students.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="fixed bottom-8 right-8 bg-primary text-white w-12 h-12 rounded-full shadow-lg hidden">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script>
+        // Mobile menu toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+                
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+                
+        // Back to top button
+        const backToTopButton = document.getElementById('back-to-top');
+                
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.remove('hidden');
+            } else {
+                backToTopButton.classList.add('hidden');
+            }
+        });
+                
+        backToTopButton.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+                
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                                
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+                                
+                // Close mobile menu if open
+                if (!mobileMenu.classList.contains('hidden')) {
+                    mobileMenu.classList.add('hidden');
+                }
+            });
+        });
+                
+        // Newsletter form submission (demo purposes)
+        const newsletterForm = document.querySelector('footer form');
+        if (newsletterForm) {
+            newsletterForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                alert('Thanks for subscribing to our newsletter!');
+                newsletterForm.reset();
+            });
+        }
+
+        // Menu Carousel Navigation
+        const carouselBtns = document.querySelectorAll('.carousel-btn');
+        const carouselDots = document.querySelectorAll('.carousel-dot');
+        const menuCategories = document.querySelectorAll('.menu-category');
+        
+        function showCategory(target) {
+            // Update active button
+            carouselBtns.forEach(btn => {
+                if (btn.dataset.target === target) {
+                    btn.classList.add('active');
+                    btn.classList.add('bg-primary');
+                    btn.classList.add('text-white');
+                    btn.classList.remove('text-gray-700');
+                } else {
+                    btn.classList.remove('active');
+                    btn.classList.remove('bg-primary');
+                    btn.classList.remove('text-white');
+                    btn.classList.add('text-gray-700');
+                }
+            });
+            
+            // Update active dot
+            carouselDots.forEach(dot => {
+                if (dot.dataset.target === target) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+            
+            // Scroll to category
+            const category = document.getElementById(`${target}-category`);
+            category.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+        }
+        
+        // Add click event to buttons
+        carouselBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                showCategory(btn.dataset.target);
+            });
+        });
+        
+        // Add click event to dots
+        carouselDots.forEach(dot => {
+            dot.addEventListener('click', () => {
+                showCategory(dot.dataset.target);
+            });
+        });
+        
+        // Auto-scroll detection for dots
+        const menuCarousel = document.querySelector('.menu-carousel');
+        menuCarousel.addEventListener('scroll', () => {
+            const scrollPosition = menuCarousel.scrollLeft;
+            const containerWidth = menuCarousel.clientWidth;
+            
+            menuCategories.forEach((category, index) => {
+                const categoryLeft = category.offsetLeft;
+                const categoryWidth = category.offsetWidth;
+                
+                if (scrollPosition >= categoryLeft - 50 && 
+                    scrollPosition < categoryLeft + categoryWidth - containerWidth + 50) {
+                    // Update active dot
+                    carouselDots.forEach(dot => dot.classList.remove('active'));
+                    carouselDots[index].classList.add('active');
+                    
+                    // Update active button
+                    carouselBtns.forEach(btn => {
+                        btn.classList.remove('active', 'bg-primary', 'text-white');
+                        btn.classList.add('text-gray-700');
+                    });
+                    carouselBtns[index].classList.add('active', 'bg-primary', 'text-white');
+                }
+            });
+        });
+		const tabs = document.querySelectorAll('.menu-tab');
+  const categories = document.querySelectorAll('.menu-category');
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      // Remove active class from all buttons
+      tabs.forEach(t => t.classList.remove('active', 'text-white', 'bg-gray-900'));
+      tab.classList.add('active', 'text-white', 'bg-gray-900');
+
+      // Hide all categories
+      categories.forEach(c => c.classList.add('hidden'));
+
+      // Show selected category
+      const target = tab.getAttribute('data-target');
+      document.getElementById(target).classList.remove('hidden');
+    });
+  });
+    </script>
+</body>
+</html>
